@@ -28,6 +28,12 @@ To configure the project, follow these steps:
 
 ## Features
 
+##### General
+
+   - Display server status 
+
+##### Slash Commands
+
 -   **/updateroles**: Adds a not whitelisted role to anyone that needs it.
 -   **/db \<option>**: Retrieves data from various database collections.
 -   **/checkname \<name>**: Retrieves all associated characters and Discord tags based on the character name.
