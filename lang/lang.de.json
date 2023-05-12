@@ -1,0 +1,294 @@
+{
+    "data": {
+        "displayEmbeds": {
+            "welcome": {
+                "title": "Vielen Dank für die Nutzung von {{COM:bot.name}}!",
+                "description": ["{{REF:bot.description}}"],
+                "fields": [
+                    {
+                        "name": "Wichtig {{REF:fields.commands}}",
+                        "value": ["{{CMD_LINK_HELP}} - {{REF:commandDescs.help}}"]
+                    },
+                    {
+                        "name": "{{REF:fields.links}}",
+                        "value": ["{{REF:links.docsEmbed}}", "{{REF:links.supportEmbed}}"]
+                    }
+                ]
+            },
+            "helpContactSupport": {
+                "title": "Help - {{REF:helpOptions.contactSupport}}",
+                "description": ["Haben Sie eine Frage oder ein Feedback?"],
+                "fields": [
+                    {
+                        "name": "{{REF:fields.links}}",
+                        "value": ["{{REF:links.supportEmbed}}"]
+                    }
+                ]
+            },
+            "helpCommands": {
+                "title": "Help - {{REF:helpOptions.commands}}",
+                "fields": [
+                    {
+                        "name": "Commands",
+                        "value": [
+                            "Um die verfügbaren Befehle zu sehen, geben Sie einfach `/` ein und wählen den Bot auf der linken Seite aus. Sie können dann durch alle verfügbaren Befehle blättern. Einige Befehle können ausgeblendet sein, wenn Sie keine Berechtigung haben, sie anzuzeigen.",
+                            "",
+                            "{{CMD_LINK_TEST}} - {{REF:commandDescs.test}}",
+                            "{{CMD_LINK_INFO}} - {{REF:commandDescs.info}}"
+                        ]
+                    },
+                    {
+                        "name": "Command Permissions",
+                        "value": [
+                            "Möchten Sie Befehle auf bestimmte Rollen, Benutzer oder Kanäle beschränken? Richten Sie die Berechtigungen auf der Integrationsseite des Bots ein, indem Sie zu **Servereinstellungen** > **Integrationen** und dann **Verwalten** für diesen Bot gehen."
+                        ]
+                    },
+                    {
+                        "name": "{{REF:fields.links}}",
+                        "value": ["{{REF:links.docsEmbed}}", "{{REF:links.supportEmbed}}"]
+                    }
+                ]
+            },
+            "test": {
+                "description": "Testbefehl funktioniert!"
+            },
+            "viewDateJoined": {
+                "description": "{{TARGET}} beigetreten am {{DATE}}!"
+            },
+            "viewDateSent": {
+                "description": "Diese Nachricht wurde gesendet am {{DATE}}!"
+            },
+            "about": {
+                "title": "{{COM:bot.name}} - Über",
+                "description": "{{REF:bot.description}}",
+                "fields": [
+                    { "name": "Author", "value": "{{REF:links.authorEmbed}}" },
+                    {
+                        "name": "{{REF:fields.links}}",
+                        "value": ["{{REF:links.supportEmbed}}"]
+                    }
+                ]
+            },
+            "translate": {
+                "title": "{{COM:bot.name}} - Translations",
+                "description": "Vielen Dank an unsere Übersetzer, die es möglich gemacht haben, dass {{COM:bot.name}} in den folgenden Sprachen verwendet werden kann."
+            },
+            "dev": {
+                "title": "{{COM:bot.name}} - Developer Info",
+                "fields": [
+                    {
+                        "name": "Versions",
+                        "value": [
+                            "**Node.js**: {{NODE_VERSION}}",
+                            "**TypeScript**: {{TS_VERSION}}",
+                            "**ECMAScript**: {{ES_VERSION}}",
+                            "**discord.js**: {{DJS_VERSION}}"
+                        ]
+                    },
+                    {
+                        "name": "Stats",
+                        "value": [
+                            "**Shards**: {{SHARD_COUNT}}",
+                            "**Servers**: {{SERVER_COUNT}} ({{SERVER_COUNT_PER_SHARD}}/Shard)"
+                        ]
+                    },
+                    {
+                        "name": "Memory",
+                        "value": [
+                            "**RSS**: {{RSS_SIZE}} ({{RSS_SIZE_PER_SERVER}}/Server)",
+                            "**Heap**: {{HEAP_TOTAL_SIZE}} ({{HEAP_TOTAL_SIZE_PER_SERVER}}/Server)",
+                            "**Used**: {{HEAP_USED_SIZE}} ({{HEAP_USED_SIZE_PER_SERVER}}/Server)"
+                        ]
+                    }
+                ]
+            }
+        },
+        "validationEmbeds": {
+            "cooldownHit": {
+                "description": "Sie können diesen Befehl nur {{AMOUNT}} mal alle {{INTERVAL}} Minuten ausführen. Bitte warten Sie, bevor Sie diesen Befehl erneut ausführen.",
+                "color": "{{COM:colors.warning}}"
+            },
+            "devOnly": {
+                "description": "Diese Aktion kann nur von Entwicklern durchgeführt werden.",
+                "color": "{{COM:colors.warning}}"
+            },
+            "missingClientPerms": {
+                "description": [
+                    "Ich habe nicht alle erforderlichen Rechte, um diesen Befehl hier auszuführen! Bitte überprüfen Sie die Server- und Channel-Berechtigungen, um sicherzustellen, dass ich die folgenden Berechtigungen habe.",
+                    "",
+                    "Erforderliche Berechtigungen: {{PERMISSIONS}}"
+                ],
+                "color": "{{COM:colors.warning}}"
+            }
+        },
+        "errorEmbeds": {
+            "command": {
+                "description": "Etwas ist schief gelaufen!",
+                "fields": [
+                    {
+                        "name": "Error code",
+                        "value": "{{ERROR_CODE}}"
+                    },
+                    {
+                        "name": "Server ID",
+                        "value": "{{GUILD_ID}}"
+                    },
+                    {
+                        "name": "Shard ID",
+                        "value": "{{SHARD_ID}}"
+                    },
+                    {
+                        "name": "Contact support",
+                        "value": "{{COM:links.support}}"
+                    }
+                ],
+                "color": "{{COM:colors.error}}"
+            },
+            "startupInProcess": {
+                "description": "{{COM:bot.name}} wird immer noch gestartet. Versuchen Sie es später noch einmal.",
+                "color": "{{COM:colors.warning}}"
+            },
+            "notImplemented": {
+                "description": "Diese Funktion ist noch nicht implementiert worden!",
+                "color": "{{COM:colors.warning}}"
+            }
+        },
+        "channelRegexes": {
+            "bot": "/bot|command|cmd/i"
+        }
+    },
+    "refs": {
+        "meta": {
+            "translators": "[TranslatorName#1234](https://github.com/)"
+        },
+        "bot": {
+            "description": "{{REF:links.templateEmbed}} helps give developers a starting point for new Discord bots, so that much of the initial setup can be avoided and developers can instead focus on meaningful bot features."
+        },
+        "chatCommands": {
+            "help": "help",
+            "info": "info",
+            "test": "test",
+            "leaderboard": "leaderboard",
+            "kd": "kd",
+            "wstats": "worldstats",
+            "wladd": "wladd",
+            "db": "db",
+            "check": "check"
+        },
+        "userCommands": {
+            "viewDateJoined": "View Date Joined"
+        },
+        "messageCommands": {
+            "viewDateSent": "View Date Sent"
+        },
+        "arguments": {
+            "option": "option"
+        },
+        "commandDescs": {
+            "help": "Hilfe finden oder Support kontaktieren.",
+            "info": "Bot-Informationen anzeigen.",
+            "test": "Führen Sie den Testbefehl aus.",
+            "kd": "Zeigt die gesamte Statistik so wie die KD des Spielers",
+            "leaderboard": "Zeigt die aktuellen Top 10 Spieler mit den meisten Kills auf dem Server.",
+            "wstats": "Zeigt einen Teil der Gesamtstatistik der aktuellen Season.",
+            "wladd": "wladd",
+            "db": "Datenbank Informationen",
+            "check": "Check user information"
+        },
+        "argDescs": {
+            "helpOption": "Option.",
+            "infoOption": "Option.",
+            "dbOption": "Get one of various database collections.",
+            "checkOption": "Check option"
+        },
+        "fields": {
+            "commands": "Commands",
+            "links": "Links"
+        },
+        "permissions": {
+            "AddReactions": "Add Reactions",
+            "Administrator": "Administrator",
+            "AttachFiles": "Attach Files",
+            "BanMembers": "Ban Members",
+            "ChangeNickname": "Change Nickname",
+            "Connect": "Connect",
+            "CreateInstantInvite": "Create Invite",
+            "CreatePrivateThreads": "Create Private Threads",
+            "CreatePublicThreads": "Create Public Threads",
+            "DeafenMembers": "Deafen Members",
+            "EmbedLinks": "Embed Links",
+            "KickMembers": "Kick Members",
+            "ManageChannels": "Manage Channel(s)",
+            "ManageEmojisAndStickers": "Manage Emoji and Stickers",
+            "ManageEvents": "Manage Events",
+            "ManageGuild": "Manage Server",
+            "ManageMessages": "Manage Messages",
+            "ManageNicknames": "Manage Nicknames",
+            "ManageRoles": "Manage Roles / Permissions",
+            "ManageThreads": "Manage Threads / Posts",
+            "ManageWebhooks": "Manage Webhooks",
+            "MentionEveryone": "Mention Everyone, Here, and All Roles",
+            "ModerateMembers": "Timeout Members",
+            "MoveMembers": "Move Members",
+            "MuteMembers": "Mute Members",
+            "PrioritySpeaker": "Priority Speaker",
+            "ReadMessageHistory": "Read Message History",
+            "RequestToSpeak": "Request to Speak",
+            "SendMessages": "Send Messages / Create Posts",
+            "SendMessagesInThreads": "Send Messages in Threads / Posts",
+            "SendTTSMessages": "Send Text-to-Speech Messages",
+            "Speak": "Speak",
+            "Stream": "Video",
+            "UseApplicationCommands": "Use Application Commands",
+            "UseEmbeddedActivities": "Use Activities",
+            "UseExternalEmojis": "Use External Emoji",
+            "UseExternalStickers": "Use External Stickers",
+            "UseVAD": "Use Voice Activity",
+            "ViewAuditLog": "View Audit Log",
+            "ViewChannel": "View Channel(s)",
+            "ViewGuildInsights": "View Server Insights"
+        },
+        "helpOptions": {
+            "contactSupport": "Contact Support",
+            "commands": "Commands"
+        },
+        "helpOptionDescs": {
+            "contactSupport": "❓ {{REF:helpOptions.contactSupport}} ❓",
+            "commands": "{{REF:helpOptions.commands}} -- Welche Befehle gibt es? Wie schränke ich ein, wer die Befehle verwenden darf?"
+        },
+        "infoOptions": {
+            "about": "Über",
+            "translate": "Translate",
+            "dev": "Dev"
+        },
+        "dbOptions": {
+            "muted": "Muted",
+            "sus": "Sus",
+            "banned": "Banned"
+        },
+        "checkOptions": {
+            "id": "id"
+        },
+        "yesNo": {
+            "yes": "Ja",
+            "no": "Nein"
+        },
+        "boolean": {
+            "true": "Richtig",
+            "false": "Falsch"
+        },
+        "other": {
+            "na": "N/A"
+        },
+        "links": {
+            "authorEmbed": "[{{COM:bot.author}}]({{COM:links.author}})",
+            "docsEmbed": "[View Documentation]({{COM:links.docs}})",
+            "donateEmbed": "[Donate via PayPal]({{COM:links.donate}})",
+            "inviteEmbed": "[Invite {{COM:bot.name}} to a Server!]({{COM:links.invite}})",
+            "sourceEmbed": "[View Source Code]({{COM:links.source}})",
+            "supportEmbed": "[Join Support Server]({{COM:links.support}})",
+            "templateEmbed": "[Discord Bot TypeScript Template]({{COM:links.template}})",
+            "voteEmbed": "[Vote for {{COM:bot.name}}!]({{COM:links.vote}})"
+        }
+    }
+}
