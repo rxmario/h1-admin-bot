@@ -39,7 +39,7 @@ To configure the project, follow these steps:
 -   **/checkname \<name>**: Retrieves all associated characters and Discord tags based on the character name.
 -   **/spy \<name>**: Reveals who is playing with whom and their base locations.
 -   **/wl add \<discordId> \<zoneId>**: Adds the specified user to the whitelist.
--   **/wl manage \<discord> \<grant|deny>**: Grants or denies access to the specified user.
+-   **/wl manage \<discord|zoneId> \<grant|deny>**: Grants or denies access to the specified user.
 -   **/wl scan \<days>**: Checks for Discord accounts that: 1) Got created and joined the same day 2) Have left the server or 3) Are a maximum of \<days> days old.
 -   **/worldstats**: Shows a portion of the total statistics of the current season.
 -   **/leaderboard**: Displays the current Top 10 players with the most kills on the server.
