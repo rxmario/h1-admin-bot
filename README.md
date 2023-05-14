@@ -1,6 +1,6 @@
 # h1-admin-bot
 
-H1Emu-Community-Manager is a Discord bot written in TypeScript, generated from the [KevinNovak/Discord-Bot-TypeScript-Template](https://github.com/KevinNovak/Discord-Bot-TypeScript-Template). It provides necessary features to make the life of an H1Emu server admin easier.
+h1-admin-bot is a Discord bot written in TypeScript, generated from the [KevinNovak/Discord-Bot-TypeScript-Template](https://github.com/KevinNovak/Discord-Bot-TypeScript-Template). It provides necessary features to make the life of an H1Emu server admin easier.
 
 ## Configuration
 
