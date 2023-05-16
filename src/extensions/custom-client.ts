@@ -1,9 +1,14 @@
 import { ActivityType, Client, ClientOptions, Locale, Presence, Snowflake, TextBasedChannel } from 'discord.js';
 import fs from 'node:fs';
+import { createRequire } from 'node:module';
 
 import { Logger } from '../services/index.js';
 import { EmbedType, EmbedUtils } from '../utils/embed-utils.js';
 import { ClientUtils, MessageUtils } from '../utils/index.js';
+
+const require = createRequire(import.meta.url);
+let Config = require('../../../../config/config.json');
+
 
 export class CustomClient extends Client {
     constructor(clientOptions: ClientOptions) {
@@ -11,7 +16,7 @@ export class CustomClient extends Client {
     }
 
     public async _start(): Promise<void> {
-        const guild = await ClientUtils.getGuild(this, this.user.id);
+        const guild = await ClientUtils.getGuild(this, Config.client.guildId);
 
         if (!guild) {
             await Logger.error('Could not find guild');
@@ -37,7 +42,7 @@ export class CustomClient extends Client {
 
         // todo: fetch leaderboard
 
-        const embed = EmbedUtils.makeEmbed(EmbedType.SUCCESS, 'Leaderboard', 'Leaderboard');
+        const embed = EmbedUtils.makeEmbed(EmbedType.SUCCESS, 'Leaderboard', 'Leaderboard').setTimestamp(new Date());
 
         const message = await MessageUtils.send(channel, embed);
 
@@ -57,8 +62,9 @@ export class CustomClient extends Client {
             await Logger.error('Got a message id but unable to find the message. Posting again');
             return await this.postLeaderboard(channel);
         }
+        const embed = EmbedUtils.makeEmbed(EmbedType.SUCCESS, 'Leaderboard', 'Updated :)').setTimestamp(new Date());
 
-        await MessageUtils.edit(message, 'Updated Leaderboard');
+        await MessageUtils.edit(message, embed);
     }
 
     private getMessageId(): Snowflake | null {
