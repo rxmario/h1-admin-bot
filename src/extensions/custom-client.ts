@@ -65,6 +65,8 @@ export class CustomClient extends Client {
         const embed = EmbedUtils.makeEmbed(EmbedType.SUCCESS, 'Leaderboard', 'Updated :)').setTimestamp(new Date());
 
         await MessageUtils.edit(message, embed);
+
+        Logger.info('Did update Leaderboard')
     }
 
     private getMessageId(): Snowflake | null {
