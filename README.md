@@ -31,6 +31,7 @@ To configure the project, follow these steps:
 ##### General
 
 -   Display server status
+-   Autoupdating Leaderboard - Bot will look for any channel containing the word 'leaderboard' and start posting and updating it.
 
 ##### Slash Commands
 
@@ -42,7 +43,6 @@ To configure the project, follow these steps:
 -   **/wl manage \<discord> \<grant|deny>**: Grants or denies access to the specified user.
 -   **/wl scan \<days>**: Checks for Discord accounts that: 1) Got created and joined the same day 2) Have left the server or 3) Are a maximum of \<days> days old.
 -   **/worldstats**: Shows a portion of the total statistics of the current season.
--   **/leaderboard**: Displays the current Top 10 players with the most kills on the server.
 -   **/kd \<name>**: Shows all statistics as well as the player's KD. (Case sensitive)
 -   **/help**: Provides an overview of all available commands.
 
