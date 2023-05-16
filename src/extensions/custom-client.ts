@@ -11,6 +11,7 @@ import fs from 'node:fs';
 import { createRequire } from 'node:module';
 
 import { Logger } from '../services/index.js';
+import { leaderboardService } from '../services/leaderboard-service.js';
 import { EmbedType, EmbedUtils } from '../utils/embed-utils.js';
 import { ClientUtils, MessageUtils } from '../utils/index.js';
 
@@ -46,15 +47,9 @@ export class CustomClient extends Client {
     }
 
     private async postLeaderboard(channel: TextBasedChannel): Promise<void> {
-        // todo: fetch leaderboard
+        const leaderboardEmbed = await leaderboardService.leaderboard();
 
-        const embed = EmbedUtils.makeEmbed(
-            EmbedType.SUCCESS,
-            'Leaderboard',
-            'Leaderboard'
-        ).setTimestamp(new Date());
-
-        const message = await MessageUtils.send(channel, embed);
+        const message = await MessageUtils.send(channel, leaderboardEmbed);
 
         const messageId = message.id;
 
@@ -67,17 +62,14 @@ export class CustomClient extends Client {
     ): Promise<void> {
         const message = await channel.messages.fetch(existingMessageId);
 
-        if (!message) {
+        if (!message.inGuild()) {
             await Logger.error('Got a message id but unable to find the message. Posting again');
             return await this.postLeaderboard(channel);
         }
-        const embed = EmbedUtils.makeEmbed(
-            EmbedType.SUCCESS,
-            'Leaderboard',
-            'Updated :)'
-        ).setTimestamp(new Date());
 
-        await MessageUtils.edit(message, embed);
+        const updatedLeaderboard = await leaderboardService.leaderboard();
+
+        await MessageUtils.edit(message, updatedLeaderboard);
 
         Logger.info('Did update Leaderboard');
     }
