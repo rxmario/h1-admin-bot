@@ -67,6 +67,8 @@ export class CustomClient extends Client {
     ): Promise<void> {
         const message = await channel.messages.fetch(existingMessageId);
 
+        if ()
+
         if (!message) {
             await Logger.error('Got a message id but unable to find the message. Posting again');
             return await this.postLeaderboard(channel);

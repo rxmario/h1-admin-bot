@@ -64,7 +64,6 @@ async function start(): Promise<void> {
     // Commands
     let commands: Command[] = [
         // Chat Commands
-        new LeaderboardCommand(),
         new KillDeathRatioCommand(),
         new WorldStatsCommand(),
         new TestCommand(),
