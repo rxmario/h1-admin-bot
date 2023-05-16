@@ -3,8 +3,7 @@ import { createRequire } from 'node:module';
 import 'reflect-metadata';
 
 import { GuildsController, RootController, ShardsController } from './controllers/index.js';
-import { Job, UpdateServerCountJob } from './jobs/index.js';
-import { LeaderboardJob } from './jobs/leaderboard.job.js';
+import { Job, LeaderboardJob, UpdateServerCountJob } from './jobs/index.js';
 import { Api } from './models/api.js';
 import { Manager } from './models/manager.js';
 import { HttpService, JobService, Logger, MasterApiService } from './services/index.js';
