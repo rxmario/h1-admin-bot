@@ -65,8 +65,8 @@ async function start(): Promise<void> {
         // TODO: Add new jobs here
     ].filter(Boolean);
 
-    if(Config.leaderboard.enabled) {
-        jobs.push(new LeaderboardJob(shardManager))
+    if (Config.leaderboard.enabled) {
+        jobs.push(new LeaderboardJob(shardManager));
     }
 
     let manager = new Manager(shardManager, new JobService(jobs));
