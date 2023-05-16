@@ -9,6 +9,10 @@
         "whitelistedRoleId": "",
         "notWhitelistedRoleId": ""
     },
+    "leaderboard": {
+        "enabled": false,
+        "size": 10
+    },
     "client": {
         "id": "",
         "token": "",

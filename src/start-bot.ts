@@ -6,7 +6,7 @@ import { Button } from './buttons/index.js';
 import { CheckCommand } from './commands/chat/check/check.command.js';
 import { DbCommand } from './commands/chat/db-command.js';
 import { HelpCommand } from './commands/chat/help/help-command.js';
-import { LeaderboardCommand, TestCommand } from './commands/chat/index.js';
+import { TestCommand } from './commands/chat/index.js';
 import { KillDeathRatioCommand } from './commands/chat/kd/kd-command.js';
 import { SpyCommand } from './commands/chat/spy/spy.js';
 import { UpdateRoles } from './commands/chat/update-roles/update-roles.js';
@@ -64,7 +64,6 @@ async function start(): Promise<void> {
     // Commands
     let commands: Command[] = [
         // Chat Commands
-        new LeaderboardCommand(),
         new KillDeathRatioCommand(),
         new WorldStatsCommand(),
         new TestCommand(),
