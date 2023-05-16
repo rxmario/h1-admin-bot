@@ -4,6 +4,7 @@ import 'reflect-metadata';
 
 import { GuildsController, RootController, ShardsController } from './controllers/index.js';
 import { Job, UpdateServerCountJob } from './jobs/index.js';
+import { LeaderboardJob } from './jobs/leaderboard.job.js';
 import { Api } from './models/api.js';
 import { Manager } from './models/manager.js';
 import { HttpService, JobService, Logger, MasterApiService } from './services/index.js';
@@ -62,6 +63,7 @@ async function start(): Promise<void> {
     // Jobs
     let jobs: Job[] = [
         new UpdateServerCountJob(shardManager, httpService),
+        new LeaderboardJob(shardManager),
         // TODO: Add new jobs here
     ].filter(Boolean);
 

@@ -30,7 +30,7 @@ To configure the project, follow these steps:
 
 ##### General
 
-   - Display server status 
+-   Display server status
 
 ##### Slash Commands
 
