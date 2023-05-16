@@ -10,9 +10,11 @@ import {
 } from 'discord.js';
 import * as fs from 'fs';
 import { createRequire } from 'node:module';
+
 import { Logger } from '../services/index.js';
+import { ClientUtils} from '../utils/client-utils.js';
 import { EmbedType, EmbedUtils } from '../utils/embed-utils.js';
-import { ClientUtils, MessageUtils } from '../utils/index.js';
+import { MessageUtils } from '../utils/message-utils.js';
 import { Job } from './index.js';
 
 const require = createRequire(import.meta.url);
