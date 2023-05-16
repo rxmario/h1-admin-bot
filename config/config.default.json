@@ -61,6 +61,10 @@
         "updateServerCount": {
             "schedule": "*/1 * * * *",
             "log": false
+        },
+        "updateLeaderboard": {
+            "schedule": "*/1 * * * *",
+            "log": false
         }
     },
     "rateLimiting": {
