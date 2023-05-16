@@ -12,7 +12,7 @@
     "client": {
         "id": "",
         "token": "",
-        "guildId": "1077041819608686642",
+        "guildId": "",
         "intents": [
             "Guilds",
             "GuildMembers",
