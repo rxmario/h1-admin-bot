@@ -9,11 +9,12 @@ import { createRequire } from 'node:module';
 
 import { Logger } from '../services/index.js';
 import { EmbedType, EmbedUtils } from '../utils/embed-utils.js';
-import { ClientUtils, MessageUtils } from '../utils/index.js';
 import { Job } from './index.js';
 
 const require = createRequire(import.meta.url);
 let Config = require('../../config/config.json');
+const ClientUtils = require('../utils/client-utils.js');
+const MessageUtils = require('../utils/message-utils.js');
 
 export class LeaderboardJob implements Job {
     public name = 'Update Leaderboard';
