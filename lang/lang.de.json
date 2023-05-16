@@ -154,7 +154,8 @@
             }
         },
         "channelRegexes": {
-            "bot": "/bot|command|cmd/i"
+            "bot": "/bot|command|cmd/i",
+            "leaderboard": "/leaderboard/"
         }
     },
     "refs": {
