@@ -7,7 +7,7 @@ import { EmbedType, EmbedUtils } from '../utils/embed-utils.js';
 import { ClientUtils, MessageUtils } from '../utils/index.js';
 
 const require = createRequire(import.meta.url);
-let Config = require('../../../../config/config.json');
+let Config = require('../../config/config.json');
 
 
 export class CustomClient extends Client {
