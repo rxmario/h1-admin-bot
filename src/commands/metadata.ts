@@ -145,15 +145,6 @@ export const ChatCommandMetadata: {
         dm_permission: true,
         default_member_permissions: PermissionsBitField.Flags.Administrator.toString(),
     },
-    LEADERBOARD: {
-        type: ApplicationCommandType.ChatInput,
-        name: Lang.getRef('chatCommands.leaderboard', Language.Default),
-        name_localizations: Lang.getRefLocalizationMap('chatCommands.leaderboard'),
-        description: Lang.getRef('commandDescs.leaderboard', Language.Default),
-        description_localizations: Lang.getRefLocalizationMap('commandDescs.leaderboard'),
-        dm_permission: true,
-        default_member_permissions: undefined,
-    },
     KD: {
         type: ApplicationCommandType.ChatInput,
         name: Lang.getRef('chatCommands.kd', Language.Default),
