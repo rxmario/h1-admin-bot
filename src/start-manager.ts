@@ -62,9 +62,12 @@ async function start(): Promise<void> {
     // Jobs
     let jobs: Job[] = [
         new UpdateServerCountJob(shardManager, httpService),
-        new LeaderboardJob(shardManager),
         // TODO: Add new jobs here
     ].filter(Boolean);
+
+    if(Config.leaderboard.enabled) {
+        jobs.push(new LeaderboardJob(shardManager))
+    }
 
     let manager = new Manager(shardManager, new JobService(jobs));
 
