@@ -22,6 +22,8 @@ To configure the project, follow these steps:
 
     - `whitelist`: Configure whitelist settings by specifying the `enabled` flag, `whitelistedRoleId`, and `notWhitelistedRoleId`.
 
+    - `leaderboard`: Configure leaderboard settings by specifying the `enabled` flag and the `size`
+
     - `client`: Update the Discord bot client settings including `id`, `token` and `guildId`
 
 3. Save the `config.json` file with your modifications.
