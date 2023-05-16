@@ -27,7 +27,7 @@ export class LeaderboardJob implements Job {
 
     public async run(): Promise<void> {
         await this.shardManager.broadcastEval(async (client: CustomClient) => {
-            return await client._start(client);
+            return await client._start();
         });
     }
     
