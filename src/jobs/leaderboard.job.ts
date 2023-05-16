@@ -1,4 +1,5 @@
 import {
+    Client,
     Locale,
     ShardingManager,
     Snowflake,
@@ -9,12 +10,12 @@ import { createRequire } from 'node:module';
 
 import { Logger } from '../services/index.js';
 import { EmbedType, EmbedUtils } from '../utils/embed-utils.js';
+import { ClientUtils, MessageUtils } from '../utils/index.js';
 import { Job } from './index.js';
 
 const require = createRequire(import.meta.url);
 let Config = require('../../config/config.json');
-const ClientUtils = require('../utils/client-utils.js');
-const MessageUtils = require('../utils/message-utils.js');
+
 
 export class LeaderboardJob implements Job {
     public name = 'Update Leaderboard';
@@ -25,30 +26,35 @@ export class LeaderboardJob implements Job {
 
     public async run(): Promise<void> {
         await this.shardManager.broadcastEval(async client => {
-            const guild = await ClientUtils.getGuild(client, client.user.id);
-
-            if (!guild) {
-                await Logger.error('Could not find guild');
-                return;
-            }
-
-            const channel = await ClientUtils.findLeaderboardChannel(guild, Locale.EnglishGB);
-
-            if (!channel) {
-                await Logger.error('Could not find leaderboard channel');
-                return;
-            }
-
-            const existingMessageId = this.getMessageId();
-            if (!existingMessageId) {
-                return await this.postLeaderboard(channel);
-            }
-
-            return await this.updateLeaderboard(channel, existingMessageId);
+            return await this._start(client);
         });
+    }
+    
+    private async _start(client: Client): Promise<void> {
+        const guild = await ClientUtils.getGuild(client, client.user.id);
+
+        if (!guild) {
+            await Logger.error('Could not find guild');
+            return;
+        }
+
+        const channel = await ClientUtils.findLeaderboardChannel(guild, Locale.EnglishGB);
+
+        if (!channel) {
+            await Logger.error('Could not find leaderboard channel');
+            return;
+        }
+
+        const existingMessageId = this.getMessageId();
+        if (!existingMessageId) {
+            return await this.postLeaderboard(channel);
+        }
+
+        return await this.updateLeaderboard(channel, existingMessageId);
     }
 
     private async postLeaderboard(channel: TextBasedChannel): Promise<void> {
+
         // todo: fetch leaderboard
 
         const embed = EmbedUtils.makeEmbed(EmbedType.SUCCESS, 'Leaderboard', 'Leaderboard');
@@ -64,6 +70,7 @@ export class LeaderboardJob implements Job {
         channel: TextBasedChannel,
         existingMessageId: Snowflake
     ): Promise<void> {
+
         const message = await channel.messages.fetch(existingMessageId);
 
         if (!message) {
