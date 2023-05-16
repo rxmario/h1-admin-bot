@@ -1,4 +1,12 @@
-import { ActivityType, Client, ClientOptions, Locale, Presence, Snowflake, TextBasedChannel } from 'discord.js';
+import {
+    ActivityType,
+    Client,
+    ClientOptions,
+    Locale,
+    Presence,
+    Snowflake,
+    TextBasedChannel,
+} from 'discord.js';
 import fs from 'node:fs';
 import { createRequire } from 'node:module';
 
@@ -8,7 +16,6 @@ import { ClientUtils, MessageUtils } from '../utils/index.js';
 
 const require = createRequire(import.meta.url);
 let Config = require('../../config/config.json');
-
 
 export class CustomClient extends Client {
     constructor(clientOptions: ClientOptions) {
@@ -39,10 +46,13 @@ export class CustomClient extends Client {
     }
 
     private async postLeaderboard(channel: TextBasedChannel): Promise<void> {
-
         // todo: fetch leaderboard
 
-        const embed = EmbedUtils.makeEmbed(EmbedType.SUCCESS, 'Leaderboard', 'Leaderboard').setTimestamp(new Date());
+        const embed = EmbedUtils.makeEmbed(
+            EmbedType.SUCCESS,
+            'Leaderboard',
+            'Leaderboard'
+        ).setTimestamp(new Date());
 
         const message = await MessageUtils.send(channel, embed);
 
@@ -55,18 +65,21 @@ export class CustomClient extends Client {
         channel: TextBasedChannel,
         existingMessageId: Snowflake
     ): Promise<void> {
-
         const message = await channel.messages.fetch(existingMessageId);
 
         if (!message) {
             await Logger.error('Got a message id but unable to find the message. Posting again');
             return await this.postLeaderboard(channel);
         }
-        const embed = EmbedUtils.makeEmbed(EmbedType.SUCCESS, 'Leaderboard', 'Updated :)').setTimestamp(new Date());
+        const embed = EmbedUtils.makeEmbed(
+            EmbedType.SUCCESS,
+            'Leaderboard',
+            'Updated :)'
+        ).setTimestamp(new Date());
 
         await MessageUtils.edit(message, embed);
 
-        Logger.info('Did update Leaderboard')
+        Logger.info('Did update Leaderboard');
     }
 
     private getMessageId(): Snowflake | null {

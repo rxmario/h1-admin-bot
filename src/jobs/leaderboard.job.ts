@@ -1,10 +1,4 @@
-import {
-    Client,
-    Locale,
-    ShardingManager,
-    Snowflake,
-    TextBasedChannel,
-} from 'discord.js';
+import { Client, Locale, ShardingManager, Snowflake, TextBasedChannel } from 'discord.js';
 import * as fs from 'node:fs';
 import { createRequire } from 'node:module';
 import { CustomClient } from '../extensions/index.js';
@@ -16,7 +10,6 @@ import { Job } from './index.js';
 
 const require = createRequire(import.meta.url);
 let Config = require('../../config/config.json');
-
 
 export class LeaderboardJob implements Job {
     public name = 'Update Leaderboard';
@@ -30,6 +23,4 @@ export class LeaderboardJob implements Job {
             return await client._start();
         });
     }
-    
-
 }
