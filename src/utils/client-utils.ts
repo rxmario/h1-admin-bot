@@ -226,6 +226,18 @@ export class ClientUtils {
         }
     }
 
+    public static async findLeaderboardChannel(
+        guild: Guild,
+        langCode: Locale
+    ): Promise<TextChannel | NewsChannel> {
+        return (await guild.channels.fetch()).find(
+            channel =>
+                (channel instanceof TextChannel || channel instanceof NewsChannel) &&
+                PermissionUtils.canSend(channel, true) &&
+                Lang.getRegex('channelRegexes.leaderboard', langCode).test(channel.name)
+        ) as TextChannel | NewsChannel;
+    }
+
     public static async findNotifyChannel(
         guild: Guild,
         langCode: Locale

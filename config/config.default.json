@@ -9,10 +9,14 @@
         "whitelistedRoleId": "",
         "notWhitelistedRoleId": ""
     },
+    "leaderboard": {
+        "enabled": false,
+        "size": 10
+    },
     "client": {
         "id": "",
         "token": "",
-        "guildId": "1077041819608686642",
+        "guildId": "",
         "intents": [
             "Guilds",
             "GuildMembers",
@@ -55,6 +59,10 @@
     },
     "jobs": {
         "updateServerCount": {
+            "schedule": "*/1 * * * *",
+            "log": false
+        },
+        "updateLeaderboard": {
             "schedule": "*/1 * * * *",
             "log": false
         }
