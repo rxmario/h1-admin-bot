@@ -1,4 +1,3 @@
-
 // -- BELONGS INTO H1-SERVER --
 
 /*
@@ -13,10 +12,22 @@ export interface CommandResponse {
     output: string
 }
 
-export class IPCManager {
-    private readonly server: any;
+export enum ZoneServerCommand {
+    KICK = 'kick',
+    PLAYERS = 'players',
+    BAN = 'ban',
+    UNBAN = 'unban',
+    SAVE = 'save',
+    ALERT = 'alert',
+    RESPAWN_LOOT = 'respawnloot',
+    LIST_PROCESSES = 'listprocesses'
+}
 
-    constructor(server: any) {
+export class IPCManager {
+    private readonly server: ZoneServer2016;
+
+    key = '123';
+    constructor(server: ZoneServer2016) {
         this.server = server;
     }
     public start() {
@@ -25,22 +36,30 @@ export class IPCManager {
 
             socket.on('data', (data) => {
                 const parsed = JSON.parse(data.toString());
-                switch (parsed.commandName) {
-                    case 'players':
-                        const output = this.players();
-                        const response: CommandResponse = {
-                            commandName: parsed.commandName,
-                            output: output,
-                        };
-                        socket.write(JSON.stringify(response));
-                        break;
-                    case 'kick':
-                        const playerName = parsed.args.join(' ').toString();
-                        const kickResponse = this.kick(playerName);
-                        socket.write(JSON.stringify(kickResponse));
-                        break;
+                if (parsed.key === this.key) {
+                    switch (parsed.cmd) {
+                        case ZoneServerCommand.PLAYERS.valueOf():
+                            this.respond(this.players(), socket);
+                            break;
+                        case ZoneServerCommand.KICK.valueOf():
+                            this.respond(this.kick(parsed.args), socket);
+                            break;
+                        default:
+                            const unknownCommand: CommandResponse = {
+                                commandName: 'unknown',
+                                output: 'Unknown command'
+                            }
+                            this.respond(unknownCommand, socket);
+                    }
+                } else {
+                    const response: CommandResponse = {
+                        commandName: 'Sus',
+                        output: 'wewooweewoo'
+                    }
+                    this.respond(response, socket);
                 }
             });
+
         });
 
         ipcServer.listen(1044, PIPE_NAME, () => {
@@ -48,8 +67,8 @@ export class IPCManager {
         });
     }
 
-    private players(): string {
-        return `Players: ${Object.values(this.server._clients)
+    private players(): CommandResponse {
+        const players = `Players: ${Object.values(this.server._clients)
             .map((c) => {
                 return `${c.character.name}: ${c.loginSessionId} | ${
                     this.server.getSoeClient(c.soeClientId)?.getNetworkStats()[2]
@@ -58,25 +77,36 @@ export class IPCManager {
                 }`;
             })
             .join(',\n')}`;
+        return {
+            commandName: ZoneServerCommand.PLAYERS.valueOf(),
+            output: players
+        }
     }
 
-    private kick(playerName: string): CommandResponse {
+    private kick(args: string[]): CommandResponse {
+        const playerName = args[0]
+        if (!playerName) {
+            return {
+                commandName: ZoneServerCommand.KICK.valueOf(),
+                output: 'No argument provided.'
+            }
+        }
         const targetClient = this.server.getClientByNameOrLoginSession(
             playerName
         );
         if (!targetClient || !(targetClient instanceof Client)) {
             return {
-                commandName: 'kick',
+                commandName: ZoneServerCommand.KICK.valueOf(),
                 output: `Unable to find ${playerName}`,
             }
         }
 
-        // targetClient.properlyLogout = true;
+        const reason = args[0]
 
         for (let i = 0; i < 5; i++) {
             this.server.sendAlert(
                 targetClient,
-                `You are being kicked from the server.`
+                `You are being kicked from the server. ${reason ? 'Reason: ' + reason : ""}`
             );
         }
 
@@ -92,14 +122,17 @@ export class IPCManager {
                 status: 1,
                 sessionId: targetClient.loginSessionId,
             });
-
-
         }, 3000);
 
         return {
-            commandName: 'kick',
-            output: `Sucessfully kicked player`,
+            commandName: ZoneServerCommand.KICK.valueOf(),
+            output: `Successfully kicked player ${targetClient.character.name}`,
         }
     }
+
+    private respond(command: CommandResponse, socket: net.Socket): void {
+        socket.write(JSON.stringify(command))
+    }
 }
+
 */

@@ -40,6 +40,7 @@ socket.on('error', err => {
 export interface IngameCommand {
     cmd: ZoneServerCommand;
     args: string[];
+    key: string
 }
 
 /**
@@ -47,6 +48,10 @@ export interface IngameCommand {
  * @param command
  */
 export const send = (command: IngameCommand): void => {
-    socket.write(JSON.stringify(command));
+    const requestObject = {
+        ...command,
+        key: 'key'
+    }
+    socket.write(JSON.stringify(requestObject));
     Logger.info(`send ${command.cmd.valueOf()} with args: ${command.args.join(', ')} to zoneserver`);
 };
