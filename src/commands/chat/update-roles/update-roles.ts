@@ -34,10 +34,11 @@ export class UpdateRoles implements Command {
                 return;
             }
 
+            console.log('role id:', whiteListedRoleId)
             let count = 0;
             for (const [_, member] of members) {
-                await member.fetch(true);
-                if (!member.roles.cache.some(role => role.id === whiteListedRoleId)) {
+                const fetched = await member.fetch(true);
+                if (!fetched.roles.cache.some(role => role.id === whiteListedRoleId)) {
                     if(await whitelistmanager.exists(member.id)) {
                         Logger.info('Denied whitelist access for ' + member.id)
                         //await whitelistmanager.deny(member.id);
