@@ -23,7 +23,8 @@
             "GuildMessages",
             "GuildMessageReactions",
             "DirectMessages",
-            "DirectMessageReactions"
+            "DirectMessageReactions",
+            "GuildEmojisAndStickers"
         ],
         "partials": ["Message", "Channel", "Reaction"],
         "caches": {
