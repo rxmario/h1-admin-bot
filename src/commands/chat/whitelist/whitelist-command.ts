@@ -189,7 +189,7 @@ export class WhiteListAdd implements Command {
             const hasLeftDiscord =
                 !user || !(await interaction.guild.members.fetch()).has(updatedEntity.discordId);
 
-            const embedFields = this.makeEmbedFields(hasLeftDiscord, updatedEntity, user);
+            const embedFields = this.makeEmbedFields(interaction.client, hasLeftDiscord, updatedEntity, user);
 
             manageEmbed.setTitle(
                 `Successfully changed status of ${
