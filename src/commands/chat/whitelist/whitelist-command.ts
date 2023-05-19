@@ -55,6 +55,17 @@ export class WhiteListAdd implements Command {
         const zoneClientId = intr.options.getString('id').valueOf().trim();
         try {
             const addUser = await ClientUtils.getUser(intr.client, discordId);
+
+            if(!addUser) {
+                const invalidDiscordIdErrorEmbed = EmbedUtils.makeEmbed(
+                    EmbedType.ERROR,
+                    'Invalid Discord Id',
+                    'Please provide a valid discord id by right clicking the users name and copying the ID.'
+                );
+                await InteractionUtils.send(intr, invalidDiscordIdErrorEmbed, true);
+                return;
+            }
+
             await whitelistManager.createWhitelistEntry(
                 intr.client,
                 discordId,
