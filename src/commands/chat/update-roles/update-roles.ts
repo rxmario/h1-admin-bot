@@ -41,7 +41,7 @@ export class UpdateRoles implements Command {
                 if (!fetched.roles.cache.some(role => role.id === whiteListedRoleId)) {
                     if(await whitelistmanager.exists(member.id)) {
                         Logger.info('Denied whitelist access for ' + member.id)
-                        //await whitelistmanager.deny(member.id);
+                        await whitelistmanager.deny(member.id);
                         count++
                     }
                     //await member.roles.add(notWhiteListedRoleId);
