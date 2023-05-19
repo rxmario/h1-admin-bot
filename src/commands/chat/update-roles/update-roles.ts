@@ -6,6 +6,7 @@ import { Logger } from '../../../services/index.js';
 import { EmbedType, EmbedUtils } from '../../../utils/embed-utils.js';
 import { InteractionUtils } from '../../../utils/interaction-utils.js';
 import { Command, CommandDeferType } from '../../command.js';
+import whitelistmanager from '../whitelist/whitelistmanager.js';
 
 const require = createRequire(import.meta.url);
 let Config = require('../../../../config/config.json');
@@ -35,6 +36,10 @@ export class UpdateRoles implements Command {
 
             for (const [_, member] of members) {
                 if (!member.roles.cache.has(whiteListedRoleId)) {
+                    if(await whitelistmanager.exists(member.id)) {
+                        Logger.info('Denied whitelist access for ' + member.id)
+                        await whitelistmanager.deny(member.id);
+                    }
                     await member.roles.add(notWhiteListedRoleId);
                     Logger.info(`Added role to ${member.user.tag}`);
                 }

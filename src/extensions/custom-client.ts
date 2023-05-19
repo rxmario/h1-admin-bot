@@ -34,6 +34,7 @@ export class CustomClient extends Client {
             entries.filter(async entry => {
                 const member = await ClientUtils.findMember(guild, entry.discordId);
                 return !member;
+
             })
         );
 

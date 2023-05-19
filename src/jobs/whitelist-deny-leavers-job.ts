@@ -8,7 +8,7 @@ const require = createRequire(import.meta.url);
 let Config = require('../../config/config.json');
 
 export class WhitelistDenyLeaversJob implements Job {
-    public name = 'Deny Leavers Job';
+    public name = 'Deny Leavers';
     public schedule: string = Config.jobs.denyLeavers.schedule;
     public log: boolean = Config.jobs.denyLeavers.log;
 

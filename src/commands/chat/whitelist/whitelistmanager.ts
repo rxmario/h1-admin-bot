@@ -130,15 +130,26 @@ export class WhitelistManager {
         }
     }
 
-    async deny(discordId: string): Promise<void> {
+    async exists(discordId: string): Promise<boolean> {
         const filter = { discordId: discordId };
-        const update = { $set: { status: WhiteListStatus.DENIED } };
-        const options = { returnDocument: ReturnDocument.AFTER };
         try {
-            await this._db.findOneAndUpdate(filter, update, options);
+            const document = await this._db.findOne(filter)
+            return !!document;
         } catch (e) {
             await Logger.error(e);
         }
+    }
+
+    async deny(discordId: string): Promise<void> {
+        // const filter = { discordId: discordId };
+        // const update = { $set: { status: WhiteListStatus.ACCEPTED } };
+        // const options = { returnDocument: ReturnDocument.AFTER };
+        // try {
+        //     await this._db.findOneAndUpdate(filter, update, options);
+        // } catch (e) {
+        //     await Logger.error(e);
+        // }
+        return;
     }
 
     async isZoneClientIdTaken(zoneClientId: string): Promise<boolean> {
