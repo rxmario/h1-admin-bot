@@ -150,7 +150,7 @@ export class WhiteListAdd implements Command {
 
         const accessRow = new ActionRowBuilder<ButtonBuilder>().addComponents([accessButton]);
 
-        const embedFields = this.makeEmbedFields(interaction.client, hasLeftDiscord, entity, user);
+        const embedFields = this.makeEmbedFields(hasLeftDiscord, entity, user);
 
         const manageEmbed = EmbedUtils.makeEmbed(
             hasLeftDiscord ? EmbedType.WARNING : EmbedType.SUCCESS,
@@ -189,7 +189,7 @@ export class WhiteListAdd implements Command {
             const hasLeftDiscord =
                 !user || !(await interaction.guild.members.fetch()).has(updatedEntity.discordId);
 
-            const embedFields = this.makeEmbedFields(interaction.client, hasLeftDiscord, updatedEntity, user);
+            const embedFields = this.makeEmbedFields(hasLeftDiscord, updatedEntity, user);
 
             manageEmbed.setTitle(
                 `Successfully changed status of ${
@@ -302,13 +302,12 @@ export class WhiteListAdd implements Command {
     }
 
     private makeEmbedFields(
-        client: Client,
         hasLeftDiscord: boolean,
         entity: WhiteListEntry,
         user: User
     ): APIEmbedField[] {
 
-        const emoji = client.emojis.cache.find((emoji) => emoji.name === 'dmsarrow') || 'Unicode';
+        const emoji = '<:arrow:1109099783672569876>'
 
         const discordField: APIEmbedField = {
             name: ':mirror_ball: Discord',
@@ -321,8 +320,8 @@ export class WhiteListAdd implements Command {
         };
 
         const statusField: APIEmbedField = {
-            name: entity.status === 'accepted' ? ':green_circle:' : ':red_circle:' + ' ' + 'Status',
-            value: entity.status,
+            name: entity.status === 'accepted' ? ':green_circle: Status' : ':red_circle: Status' ,
+            value: `${emoji}` + ' ' + entity.status,
         };
 
         const hasLeftDiscordField: APIEmbedField = {
