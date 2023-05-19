@@ -43,6 +43,7 @@ export class CustomClient extends Client {
 
         if (leavers.length === 0) {
             Logger.info('No leavers detected. Job done.');
+            return;
         }
 
         Logger.info(`Found ${leavers.length} leavers. Denying...`);
