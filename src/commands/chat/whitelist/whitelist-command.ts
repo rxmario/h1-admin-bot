@@ -62,8 +62,8 @@ export class WhiteListAdd implements Command {
             );
             const successEmbed = EmbedUtils.makeEmbed(
                 EmbedType.SUCCESS,
-                'Whitelist entry added',
-                `The whitelist entry for ${addUser.tag} was successfully added.`
+                'Success!',
+                `The whitelist entry for ${FormatUtils.userMention(addUser.id)} was successfully added.`
             );
 
             const member = await ClientUtils.findMember(intr.guild, discordId);
