@@ -133,7 +133,7 @@ export class WhitelistManager {
     async exists(discordId: string): Promise<boolean> {
         const filter = { discordId: discordId };
         try {
-            const document = await this._db.findOne(filter)
+            const document = await this._db.findOne(filter);
             return !!document;
         } catch (e) {
             await Logger.error(e);
@@ -154,7 +154,7 @@ export class WhitelistManager {
 
     async isZoneClientIdTaken(zoneClientId: string): Promise<boolean> {
         const document = await this._db.findOne({ zoneClientId });
-        return !!document
+        return !!document;
     }
 
     async isDiscordIdTaken(discordId: string): Promise<boolean> {

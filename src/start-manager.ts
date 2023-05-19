@@ -71,7 +71,7 @@ async function start(): Promise<void> {
     }
 
     if (Config.whitelist.autoDenyLeavers) {
-        jobs.push(new WhitelistDenyLeaversJob(shardManager))
+        jobs.push(new WhitelistDenyLeaversJob(shardManager));
     }
 
     let manager = new Manager(shardManager, new JobService(jobs));

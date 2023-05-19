@@ -9,12 +9,10 @@ import {
 } from 'discord.js';
 import fs from 'node:fs';
 import { createRequire } from 'node:module';
-import { WhiteListEntry } from '../commands/chat/whitelist/whitelist-model.js';
-import whitelistManager from '../commands/chat/whitelist/whitelistmanager.js';
 
+import whitelistManager from '../commands/chat/whitelist/whitelistmanager.js';
 import { Logger } from '../services/index.js';
 import { leaderboardService } from '../services/leaderboard-service.js';
-import { EmbedType, EmbedUtils } from '../utils/embed-utils.js';
 import { ClientUtils, MessageUtils } from '../utils/index.js';
 
 const require = createRequire(import.meta.url);
