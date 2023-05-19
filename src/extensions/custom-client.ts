@@ -30,13 +30,14 @@ export class CustomClient extends Client {
         const entries = await whitelistManager.getAll();
         Logger.info('Deny Leavers Job started...');
 
-        const leavers = await Promise.all(
-            entries.filter(async entry => {
+        const filtered = await Promise.all(
+            entries.map(async entry => {
                 const member = await ClientUtils.findMember(guild, entry.discordId);
                 return !member;
-
             })
         );
+
+        const leavers = entries.filter((_, i) => filtered[i]);
 
         if (leavers.length === 0) {
             Logger.info('No leavers detected. Job done.');
@@ -44,10 +45,13 @@ export class CustomClient extends Client {
 
         Logger.info(`Found ${leavers.length} leavers. Denying...`);
 
+        let count = 0;
         for (const leaver of leavers) {
             Logger.info(`Denying whitelist access for ${leaver.discordId}`);
-            await whitelistManager.deny(leaver.discordId);
+            count++;
+            //await whitelistManager.deny(leaver.discordId);
         }
+        console.log('count: ', count)
 
         Logger.info('Deny Leavers job done');
     }
