@@ -3,7 +3,7 @@
     APIEmbedField,
     ButtonBuilder,
     ButtonStyle,
-    ChatInputCommandInteraction,
+    ChatInputCommandInteraction, Client,
     EmbedBuilder,
     GuildMember,
     Interaction,
@@ -302,22 +302,26 @@ export class WhiteListAdd implements Command {
     }
 
     private makeEmbedFields(
+        client: Client,
         hasLeftDiscord: boolean,
         entity: WhiteListEntry,
         user: User
     ): APIEmbedField[] {
+
+        const emoji = client.emojis.cache.get('1109088047120781402') || 'Unicode';
+
         const discordField: APIEmbedField = {
             name: ':mirror_ball:Discord',
-            value: `:dmsarrow: ${user ? FormatUtils.userMention(user.id) : 'Unknown User'}`,
+            value: `${emoji} ${user ? FormatUtils.userMention(user.id) : 'Unknown User'}`,
         };
 
         const zoneIdField: APIEmbedField = {
             name: ':id:ZoneClientId',
-            value: ':dmsarrow:' + entity.zoneClientId,
+            value: `${emoji}` + ' ' + entity.zoneClientId,
         };
 
         const statusField: APIEmbedField = {
-            name: entity.status === 'accepted' ? ':green_circle:' : ':red_circle:' + 'Status',
+            name: entity.status === 'accepted' ? ':green_circle:' : ':red_circle:' + ' ' + 'Status',
             value: entity.status === 'accepted' ? ':green_circle:' : ':red_circle:' + entity.status,
         };
 
