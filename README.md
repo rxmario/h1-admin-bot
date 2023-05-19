@@ -1,6 +1,6 @@
-# H1Emu-Community-Manager
+# h1-admin-bot
 
-H1Emu-Community-Manager is a Discord bot written in TypeScript, generated from the [KevinNovak/Discord-Bot-TypeScript-Template](https://github.com/KevinNovak/Discord-Bot-TypeScript-Template). It provides necessary features to make the life of an H1Emu server admin easier.
+h1-admin-bot is a Discord bot written in TypeScript, generated from the [KevinNovak/Discord-Bot-TypeScript-Template](https://github.com/KevinNovak/Discord-Bot-TypeScript-Template). It provides necessary features to make the life of an H1Emu server admin easier.
 
 ## Configuration
 
@@ -22,21 +22,30 @@ To configure the project, follow these steps:
 
     - `whitelist`: Configure whitelist settings by specifying the `enabled` flag, `whitelistedRoleId`, and `notWhitelistedRoleId`.
 
+    - `leaderboard`: Configure leaderboard settings by specifying the `enabled` flag and the `size`
+
     - `client`: Update the Discord bot client settings including `id`, `token` and `guildId`
 
 3. Save the `config.json` file with your modifications.
 
 ## Features
 
+##### General
+
+-   Display server status
+-   Autoupdating Leaderboard - Bot will look for any channel containing the word 'leaderboard' and start posting and updating it.
+-   Autoupdating Whitelist - Bot will identify and deny whitelist access for members who left discord.
+
+##### Slash Commands
+
 -   **/updateroles**: Adds a not whitelisted role to anyone that needs it.
 -   **/db \<option>**: Retrieves data from various database collections.
 -   **/checkname \<name>**: Retrieves all associated characters and Discord tags based on the character name.
 -   **/spy \<name>**: Reveals who is playing with whom and their base locations.
 -   **/wl add \<discordId> \<zoneId>**: Adds the specified user to the whitelist.
--   **/wl manage \<discord> \<grant|deny>**: Grants or denies access to the specified user.
+-   **/wl manage \<discord|zoneId> \<grant|deny>**: Grants or denies access to the specified user.
 -   **/wl scan \<days>**: Checks for Discord accounts that: 1) Got created and joined the same day 2) Have left the server or 3) Are a maximum of \<days> days old.
 -   **/worldstats**: Shows a portion of the total statistics of the current season.
--   **/leaderboard**: Displays the current Top 10 players with the most kills on the server.
 -   **/kd \<name>**: Shows all statistics as well as the player's KD. (Case sensitive)
 -   **/help**: Provides an overview of all available commands.
 

@@ -7,19 +7,25 @@
     "whitelist": {
         "enabled": false,
         "whitelistedRoleId": "",
-        "notWhitelistedRoleId": ""
+        "notWhitelistedRoleId": "",
+        "autoDenyLeavers": false
+    },
+    "leaderboard": {
+        "enabled": false,
+        "size": 10
     },
     "client": {
         "id": "",
         "token": "",
-        "guildId": "1077041819608686642",
+        "guildId": "",
         "intents": [
             "Guilds",
             "GuildMembers",
             "GuildMessages",
             "GuildMessageReactions",
             "DirectMessages",
-            "DirectMessageReactions"
+            "DirectMessageReactions",
+            "GuildEmojisAndStickers"
         ],
         "partials": ["Message", "Channel", "Reaction"],
         "caches": {
@@ -56,6 +62,14 @@
     "jobs": {
         "updateServerCount": {
             "schedule": "*/1 * * * *",
+            "log": false
+        },
+        "updateLeaderboard": {
+            "schedule": "*/1 * * * *",
+            "log": false
+        },
+        "denyLeavers": {
+            "schedule": "0 * * * *",
             "log": false
         }
     },
