@@ -1,12 +1,15 @@
 ﻿import {
     ActionRowBuilder,
+    APIEmbedField,
     ButtonBuilder,
     ButtonStyle,
     ChatInputCommandInteraction,
+    Client,
     EmbedBuilder,
     GuildMember,
     Interaction,
     PermissionsString,
+    User,
 } from 'discord.js';
 import { promises as fs } from 'node:fs';
 import { createRequire } from 'node:module';
@@ -15,7 +18,7 @@ import { EventData } from '../../../models/internal-models.js';
 import { Logger } from '../../../services/index.js';
 // eslint-disable-next-line import/extensions
 import { EmbedType, EmbedUtils } from '../../../utils/embed-utils.js';
-import { ClientUtils, InteractionUtils, RegexUtils } from '../../../utils/index.js';
+import { ClientUtils, FormatUtils, InteractionUtils, RegexUtils } from '../../../utils/index.js';
 import { Command, CommandDeferType } from '../../index.js';
 import { getStatusColor, WhiteListEntry, WhiteListStatus } from './whitelist-model.js';
 import whitelistManager, { WhiteListAddError } from './whitelistmanager.js';
@@ -60,8 +63,10 @@ export class WhiteListAdd implements Command {
             );
             const successEmbed = EmbedUtils.makeEmbed(
                 EmbedType.SUCCESS,
-                'Whitelist entry added',
-                `The whitelist entry for ${addUser.tag} was successfully added.`
+                'Success!',
+                `The whitelist entry for ${FormatUtils.userMention(
+                    addUser.id
+                )} was successfully added.`
             );
 
             const member = await ClientUtils.findMember(intr.guild, discordId);
@@ -148,22 +153,14 @@ export class WhiteListAdd implements Command {
 
         const accessRow = new ActionRowBuilder<ButtonBuilder>().addComponents([accessButton]);
 
-        const reply = `discord: ${user ? user.tag : 'Unknown User'}\nclient id: ${
-            entity.zoneClientId
-        }\nstatus: ${entity.status}`;
-        const description = hasLeftDiscord
-            ? `${reply}\n\nUnknown Discord User. Must have left the discord. If the user is considered being sus then you might think about removing access right now.`
-            : reply;
-
-        const title = `Whitelist status for ${
-            hasLeftDiscord ? 'Unknown User' : user.tag
-        } with id: ${entity.zoneClientId}`;
+        const embedFields = this.makeEmbedFields(hasLeftDiscord, entity, user);
 
         const manageEmbed = EmbedUtils.makeEmbed(
             hasLeftDiscord ? EmbedType.WARNING : EmbedType.SUCCESS,
-            title,
-            description
-        ).setColor(getStatusColor(entity.status));
+            'Whitelist Status'
+        )
+            .addFields(embedFields)
+            .setColor(getStatusColor(entity.status));
 
         const listener = this.getButtonInteractionHandler(entity, manageEmbed);
 
@@ -195,11 +192,8 @@ export class WhiteListAdd implements Command {
             const hasLeftDiscord =
                 !user || !(await interaction.guild.members.fetch()).has(updatedEntity.discordId);
 
-            const reply = `id: ${updatedEntity._id}\ndiscord: ${
-                hasLeftDiscord ? 'Unknown User' : user.tag
-            }\nclient id: ${updatedEntity.zoneClientId}\nstatus: ${updatedEntity.status}`;
+            const embedFields = this.makeEmbedFields(hasLeftDiscord, updatedEntity, user);
 
-            manageEmbed.setDescription(reply);
             manageEmbed.setTitle(
                 `Successfully changed status of ${
                     hasLeftDiscord === false ? user.tag : 'Unknown User'
@@ -208,6 +202,7 @@ export class WhiteListAdd implements Command {
             manageEmbed.setColor(
                 updatedEntity.status === WhiteListStatus.ACCEPTED ? 5763719 : 15548997
             );
+            manageEmbed.setFields(embedFields);
             manageEmbed.setThumbnail(Config.logoUrl);
 
             if (hasLeftDiscord) {
@@ -307,6 +302,42 @@ export class WhiteListAdd implements Command {
         } catch (err) {
             await Logger.error(err);
         }
+    }
+
+    private makeEmbedFields(
+        hasLeftDiscord: boolean,
+        entity: WhiteListEntry,
+        user: User
+    ): APIEmbedField[] {
+        const emoji = '<:arrow:1109099783672569876>';
+
+        const discordField: APIEmbedField = {
+            name: ':mirror_ball: Discord',
+            value: `${emoji} ${user ? FormatUtils.userMention(user.id) : 'Unknown User'}`,
+        };
+
+        const zoneIdField: APIEmbedField = {
+            name: ':id: Zone Id',
+            value: `${emoji}` + ' ' + entity.zoneClientId,
+        };
+
+        const statusField: APIEmbedField = {
+            name: entity.status === 'accepted' ? ':green_circle: Status' : ':red_circle: Status',
+            value: `${emoji}` + ' ' + entity.status,
+        };
+
+        const hasLeftDiscordField: APIEmbedField = {
+            name: 'Warning!',
+            value: 'The user must have left discord. If the user is considered being sus then you might think about removing access right now.',
+        };
+
+        const fields: APIEmbedField[] = [discordField, zoneIdField, statusField];
+
+        if (hasLeftDiscord) {
+            fields.push(hasLeftDiscordField);
+        }
+
+        return fields;
     }
 
     private checkSameDayCreatedSameDayJoint(member: GuildMember): boolean {

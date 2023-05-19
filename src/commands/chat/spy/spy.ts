@@ -115,8 +115,8 @@ export class SpyCommand implements Command {
 
         Logger.info('Spy completed.');
 
-        const directory = `./out/spy`;
-        const filePath = `./out/spy/${name.toLowerCase()}.txt`;
+        const directory = `./out/spy/`;
+        const filePath = `${directory}${name.toLowerCase()}.txt`;
 
         await fs.mkdir(directory, { recursive: true });
 
