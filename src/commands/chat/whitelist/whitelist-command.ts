@@ -150,7 +150,7 @@ export class WhiteListAdd implements Command {
 
         const accessRow = new ActionRowBuilder<ButtonBuilder>().addComponents([accessButton]);
 
-        const embedFields = this.makeEmbedFields(hasLeftDiscord, entity, user);
+        const embedFields = this.makeEmbedFields(interaction.client, hasLeftDiscord, entity, user);
 
         const manageEmbed = EmbedUtils.makeEmbed(
             hasLeftDiscord ? EmbedType.WARNING : EmbedType.SUCCESS,
