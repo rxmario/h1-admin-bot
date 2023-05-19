@@ -308,21 +308,21 @@ export class WhiteListAdd implements Command {
         user: User
     ): APIEmbedField[] {
 
-        const emoji = client.emojis.cache.get('1109088047120781402') || 'Unicode';
+        const emoji = client.emojis.cache.find((emoji) => emoji.name === 'dmsarrow') || 'Unicode';
 
         const discordField: APIEmbedField = {
-            name: ':mirror_ball:Discord',
+            name: ':mirror_ball: Discord',
             value: `${emoji} ${user ? FormatUtils.userMention(user.id) : 'Unknown User'}`,
         };
 
         const zoneIdField: APIEmbedField = {
-            name: ':id:ZoneClientId',
+            name: ':id: ZoneClientId',
             value: `${emoji}` + ' ' + entity.zoneClientId,
         };
 
         const statusField: APIEmbedField = {
             name: entity.status === 'accepted' ? ':green_circle:' : ':red_circle:' + ' ' + 'Status',
-            value: entity.status === 'accepted' ? ':green_circle:' : ':red_circle:' + entity.status,
+            value: entity.status,
         };
 
         const hasLeftDiscordField: APIEmbedField = {
