@@ -9,6 +9,7 @@ import {
 } from 'discord.js';
 import fs from 'node:fs';
 import { createRequire } from 'node:module';
+import { WhiteListStatus } from '../commands/chat/whitelist/whitelist-model.js';
 
 import whitelistManager from '../commands/chat/whitelist/whitelistmanager.js';
 import { Logger } from '../services/index.js';
@@ -30,6 +31,9 @@ export class CustomClient extends Client {
 
         const filtered = await Promise.all(
             entries.map(async entry => {
+                if(entry.status === WhiteListStatus.DENIED) {
+                    return false;
+                }
                 const member = await ClientUtils.findMember(guild, entry.discordId);
                 return !member;
             })
