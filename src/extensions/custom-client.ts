@@ -45,13 +45,10 @@ export class CustomClient extends Client {
 
         Logger.info(`Found ${leavers.length} leavers. Denying...`);
 
-        let count = 0;
         for (const leaver of leavers) {
             Logger.info(`Denying whitelist access for ${leaver.discordId}`);
-            count++;
-            //await whitelistManager.deny(leaver.discordId);
+            await whitelistManager.deny(leaver.discordId);
         }
-        console.log('count: ', count)
 
         Logger.info('Deny Leavers job done');
     }
