@@ -36,6 +36,7 @@ export class UpdateRoles implements Command {
 
             let count = 0;
             for (const [_, member] of members) {
+                await member.fetch(true);
                 if (!member.roles.cache.some(role => role.id === whiteListedRoleId)) {
                     if(await whitelistmanager.exists(member.id)) {
                         Logger.info('Denied whitelist access for ' + member.id)
