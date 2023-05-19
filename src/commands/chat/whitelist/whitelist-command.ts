@@ -307,18 +307,18 @@ export class WhiteListAdd implements Command {
         user: User
     ): APIEmbedField[] {
         const discordField: APIEmbedField = {
-            name: 'Discord',
-            value: user ? FormatUtils.userMention(user.id) : 'Unknown User',
+            name: ':mirror_ball:Discord',
+            value: `:dmsarrow: ${user ? FormatUtils.userMention(user.id) : 'Unknown User'}`,
         };
 
         const zoneIdField: APIEmbedField = {
-            name: 'ZoneClientId',
-            value: entity.zoneClientId,
+            name: ':id:ZoneClientId',
+            value: ':dmsarrow:' + entity.zoneClientId,
         };
 
         const statusField: APIEmbedField = {
-            name: 'Status',
-            value: entity.status,
+            name: entity.status === 'accepted' ? ':green_circle:' : ':red_circle:' + 'Status',
+            value: entity.status === 'accepted' ? ':green_circle:' : ':red_circle:' + entity.status,
         };
 
         const hasLeftDiscordField: APIEmbedField = {
