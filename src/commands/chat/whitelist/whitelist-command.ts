@@ -56,7 +56,7 @@ export class WhiteListAdd implements Command {
         try {
             const addUser = await ClientUtils.getUser(intr.client, discordId);
 
-            if(!addUser) {
+            if (!addUser) {
                 const invalidDiscordIdErrorEmbed = EmbedUtils.makeEmbed(
                     EmbedType.ERROR,
                     'Invalid Discord Id',
