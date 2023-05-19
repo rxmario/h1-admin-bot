@@ -1,20 +1,16 @@
-import { Client, Locale, ShardingManager, Snowflake, TextBasedChannel } from 'discord.js';
-import * as fs from 'node:fs';
+import { ShardingManager } from 'discord.js';
 import { createRequire } from 'node:module';
-import { CustomClient } from '../extensions/index.js';
 
-import { Logger } from '../services/index.js';
-import { EmbedType, EmbedUtils } from '../utils/embed-utils.js';
-import { ClientUtils, MessageUtils } from '../utils/index.js';
+import { CustomClient } from '../extensions/index.js';
 import { Job } from './index.js';
 
 const require = createRequire(import.meta.url);
 let Config = require('../../config/config.json');
 
 export class WhitelistDenyLeaversJob implements Job {
-    public name = 'Update Leaderboard';
-    public schedule: string = Config.jobs.updateLeaderboard.schedule;
-    public log: boolean = Config.jobs.updateLeaderboard.log;
+    public name = 'Deny Leavers Job';
+    public schedule: string = Config.jobs.denyLeavers.schedule;
+    public log: boolean = Config.jobs.denyLeavers.log;
 
     constructor(private shardManager: ShardingManager) {}
 
