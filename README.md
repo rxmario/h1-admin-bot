@@ -34,6 +34,7 @@ To configure the project, follow these steps:
 
 -   Display server status
 -   Autoupdating Leaderboard - Bot will look for any channel containing the word 'leaderboard' and start posting and updating it.
+-   Autoupdating Whitelist - Bot will identify and deny whitelist access for members who left discord.
 
 ##### Slash Commands
 
