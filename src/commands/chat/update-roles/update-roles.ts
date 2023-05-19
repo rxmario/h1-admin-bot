@@ -6,6 +6,7 @@ import { Logger } from '../../../services/index.js';
 import { EmbedType, EmbedUtils } from '../../../utils/embed-utils.js';
 import { InteractionUtils } from '../../../utils/interaction-utils.js';
 import { Command, CommandDeferType } from '../../command.js';
+import whitelistmanager from '../whitelist/whitelistmanager.js';
 
 const require = createRequire(import.meta.url);
 let Config = require('../../../../config/config.json');
@@ -33,13 +34,23 @@ export class UpdateRoles implements Command {
                 return;
             }
 
+            console.log('role id:', whiteListedRoleId);
+            let count = 0;
             for (const [_, member] of members) {
-                if (!member.roles.cache.has(whiteListedRoleId)) {
-                    await member.roles.add(notWhiteListedRoleId);
+                const fetched = await member.fetch(true);
+                if (!fetched.roles.cache.some(role => role.id === whiteListedRoleId)) {
+                    if (await whitelistmanager.exists(member.id)) {
+                        Logger.info('Denied whitelist access for ' + member.id);
+                        await whitelistmanager.deny(member.id);
+                        count++;
+                    }
+                    //await member.roles.add(notWhiteListedRoleId);
+                    //count++;
                     Logger.info(`Added role to ${member.user.tag}`);
                 }
             }
 
+            console.log('count', count);
             const embed = EmbedUtils.makeEmbed(
                 EmbedType.SUCCESS,
                 null,

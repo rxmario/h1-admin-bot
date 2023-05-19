@@ -10,9 +10,9 @@ import {
 import fs from 'node:fs';
 import { createRequire } from 'node:module';
 
+import whitelistManager from '../commands/chat/whitelist/whitelistmanager.js';
 import { Logger } from '../services/index.js';
 import { leaderboardService } from '../services/leaderboard-service.js';
-import { EmbedType, EmbedUtils } from '../utils/embed-utils.js';
 import { ClientUtils, MessageUtils } from '../utils/index.js';
 
 const require = createRequire(import.meta.url);
@@ -21,6 +21,34 @@ let Config = require('../../config/config.json');
 export class CustomClient extends Client {
     constructor(clientOptions: ClientOptions) {
         super(clientOptions);
+    }
+
+    public async whiteListDenyLeavers(): Promise<void> {
+        const guild = await ClientUtils.getGuild(this, Config.client.guildId);
+        const entries = await whitelistManager.getAll();
+        Logger.info('Deny Leavers Job started...');
+
+        const filtered = await Promise.all(
+            entries.map(async entry => {
+                const member = await ClientUtils.findMember(guild, entry.discordId);
+                return !member;
+            })
+        );
+
+        const leavers = entries.filter((_, i) => filtered[i]);
+
+        if (leavers.length === 0) {
+            Logger.info('No leavers detected. Job done.');
+        }
+
+        Logger.info(`Found ${leavers.length} leavers. Denying...`);
+
+        for (const leaver of leavers) {
+            Logger.info(`Denying whitelist access for ${leaver.discordId}`);
+            await whitelistManager.deny(leaver.discordId);
+        }
+
+        Logger.info('Deny Leavers job done');
     }
 
     public async _start(): Promise<void> {
