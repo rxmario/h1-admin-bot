@@ -31,7 +31,7 @@ export class CustomClient extends Client {
 
         const filtered = await Promise.all(
             entries.map(async entry => {
-                if(entry.status === WhiteListStatus.DENIED) {
+                if (entry.status === WhiteListStatus.DENIED) {
                     return false;
                 }
                 const member = await ClientUtils.findMember(guild, entry.discordId);
