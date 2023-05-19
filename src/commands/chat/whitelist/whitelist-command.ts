@@ -3,7 +3,8 @@
     APIEmbedField,
     ButtonBuilder,
     ButtonStyle,
-    ChatInputCommandInteraction, Client,
+    ChatInputCommandInteraction,
+    Client,
     EmbedBuilder,
     GuildMember,
     Interaction,
@@ -63,7 +64,9 @@ export class WhiteListAdd implements Command {
             const successEmbed = EmbedUtils.makeEmbed(
                 EmbedType.SUCCESS,
                 'Success!',
-                `The whitelist entry for ${FormatUtils.userMention(addUser.id)} was successfully added.`
+                `The whitelist entry for ${FormatUtils.userMention(
+                    addUser.id
+                )} was successfully added.`
             );
 
             const member = await ClientUtils.findMember(intr.guild, discordId);
@@ -306,8 +309,7 @@ export class WhiteListAdd implements Command {
         entity: WhiteListEntry,
         user: User
     ): APIEmbedField[] {
-
-        const emoji = '<:arrow:1109099783672569876>'
+        const emoji = '<:arrow:1109099783672569876>';
 
         const discordField: APIEmbedField = {
             name: ':mirror_ball: Discord',
@@ -320,7 +322,7 @@ export class WhiteListAdd implements Command {
         };
 
         const statusField: APIEmbedField = {
-            name: entity.status === 'accepted' ? ':green_circle: Status' : ':red_circle: Status' ,
+            name: entity.status === 'accepted' ? ':green_circle: Status' : ':red_circle: Status',
             value: `${emoji}` + ' ' + entity.status,
         };
 
