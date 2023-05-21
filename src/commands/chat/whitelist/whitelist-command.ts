@@ -4,7 +4,6 @@
     ButtonBuilder,
     ButtonStyle,
     ChatInputCommandInteraction,
-    Client,
     EmbedBuilder,
     GuildMember,
     Interaction,
@@ -21,7 +20,7 @@ import { EmbedType, EmbedUtils } from '../../../utils/embed-utils.js';
 import { ClientUtils, FormatUtils, InteractionUtils, RegexUtils } from '../../../utils/index.js';
 import { Command, CommandDeferType } from '../../index.js';
 import { getStatusColor, WhiteListEntry, WhiteListStatus } from './whitelist-model.js';
-import whitelistManager, { WhiteListAddError } from './whitelistmanager.js';
+import whitelistManager, { WhiteListAddError, WhiteListAddErrorType } from './whitelistmanager.js';
 
 const require = createRequire(import.meta.url);
 let Config = require('../../../../config/config.json');
@@ -41,7 +40,7 @@ export class WhiteListAdd implements Command {
                 await this.addInteraction(intr);
                 return;
             case 'manage':
-                await this.manageInteraction(intr);
+                await this.manageInteraction(intr, null);
                 return;
             case 'scan':
                 await InteractionUtils.deferReply(intr, false);
@@ -52,7 +51,7 @@ export class WhiteListAdd implements Command {
 
     private async addInteraction(intr: ChatInputCommandInteraction): Promise<void> {
         const discordId = intr.options.getString('discord').valueOf().trim();
-        const zoneClientId = intr.options.getString('id').valueOf().trim();
+        const zoneId = intr.options.getString('id').valueOf().trim();
         try {
             const addUser = await ClientUtils.getUser(intr.client, discordId);
 
@@ -69,7 +68,7 @@ export class WhiteListAdd implements Command {
             await whitelistManager.createWhitelistEntry(
                 intr.client,
                 discordId,
-                zoneClientId,
+                zoneId,
                 WhiteListStatus.ACCEPTED
             );
             const successEmbed = EmbedUtils.makeEmbed(
@@ -106,12 +105,7 @@ export class WhiteListAdd implements Command {
             return;
         } catch (error) {
             if (error instanceof WhiteListAddError) {
-                const whiteListAddErrorEmbed = EmbedUtils.makeEmbed(
-                    EmbedType.ERROR,
-                    null,
-                    error.message
-                );
-                await InteractionUtils.send(intr, whiteListAddErrorEmbed, true);
+                await this.manageInteraction(intr, error.type === WhiteListAddErrorType.zoneId ? zoneId : discordId);
                 return;
             }
             if (error.code === 10013 || error.code === 50035) {
@@ -129,15 +123,28 @@ export class WhiteListAdd implements Command {
         }
     }
 
-    private async manageInteraction(interaction: ChatInputCommandInteraction): Promise<void> {
-        const id = interaction.options.getString('id').trim();
+    private async manageInteraction(interaction: ChatInputCommandInteraction, id: string | null): Promise<void> {
+        
+        let extractedId: string | null = null;
+        let isAlreadyWhitelisted = false;
+        if (typeof id === 'string') {
+            extractedId = id.trim();
+            isAlreadyWhitelisted = true;
+        } else {
+            const param = interaction.options.getString('id');
+            if(param) {
+                extractedId = param.trim();
+            }
+        }
 
-        const discordId = RegexUtils.discordId(id);
-        const zoneClientId = RegexUtils.zoneClientId(id);
+        if(!extractedId) return;
+
+        const discordId = RegexUtils.discordId(extractedId);
+        const zoneId = RegexUtils.zoneId(extractedId);
 
         const entity = discordId
             ? await whitelistManager.getEntryByDiscordId(discordId)
-            : await whitelistManager.getEntryByClientId(zoneClientId);
+            : await whitelistManager.getEntryByZoneId(zoneId);
 
         if (!entity) {
             const errorEmbed = EmbedUtils.makeEmbed(
@@ -168,7 +175,8 @@ export class WhiteListAdd implements Command {
 
         const manageEmbed = EmbedUtils.makeEmbed(
             hasLeftDiscord ? EmbedType.WARNING : EmbedType.SUCCESS,
-            'Whitelist Status'
+            'Whitelist Status',
+            isAlreadyWhitelisted ? 'Attention: The user already did the whitelist at some point. Check if the given data matches with what we have got.' : null
         )
             .addFields(embedFields)
             .setColor(getStatusColor(entity.status));
@@ -329,7 +337,7 @@ export class WhiteListAdd implements Command {
 
         const zoneIdField: APIEmbedField = {
             name: ':id: Zone Id',
-            value: `${emoji}` + ' ' + entity.zoneClientId,
+            value: `${emoji}` + ' ' + entity.zoneId,
         };
 
         const statusField: APIEmbedField = {

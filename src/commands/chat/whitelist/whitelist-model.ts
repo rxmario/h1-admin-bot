@@ -22,7 +22,7 @@ export function getStatusColor(status: string): number {
 export interface WhiteListEntry {
     _id: Types.ObjectId;
     discordId: string;
-    zoneClientId: string;
+    zoneId: string;
     status: string;
 }
 

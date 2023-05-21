@@ -74,7 +74,7 @@ export class CheckCommand implements Command {
             const toEmbedField = await this.getCharacterInfo(ownerId, results);
 
             if (this.useWhitelist) {
-                const whiteListEntry = await whitelistManager.getEntryByClientId(ownerId);
+                const whiteListEntry = await whitelistManager.getEntryByZoneId(ownerId);
 
                 let hasLeftDiscord = false;
 
