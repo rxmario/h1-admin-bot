@@ -35,22 +35,14 @@ export class UpdateRoles implements Command {
             }
 
             console.log('role id:', whiteListedRoleId);
-            let count = 0;
             for (const [_, member] of members) {
                 const fetched = await member.fetch(true);
                 if (!fetched.roles.cache.some(role => role.id === whiteListedRoleId)) {
-                    if (await whitelistmanager.exists(member.id)) {
-                        Logger.info('Denied whitelist access for ' + member.id);
-                        await whitelistmanager.deny(member.id);
-                        count++;
-                    }
-                    //await member.roles.add(notWhiteListedRoleId);
-                    //count++;
+                    await member.roles.add(notWhiteListedRoleId);
                     Logger.info(`Added role to ${member.user.tag}`);
                 }
             }
 
-            console.log('count', count);
             const embed = EmbedUtils.makeEmbed(
                 EmbedType.SUCCESS,
                 null,
