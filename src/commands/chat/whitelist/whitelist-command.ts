@@ -337,7 +337,7 @@ export class WhiteListAdd implements Command {
 
         const zoneIdField: APIEmbedField = {
             name: ':id: Zone Id',
-            value: `${emoji}` + ' ' + entity.zoneId,
+            value: `${emoji}` + ' ' + entity.zoneClientId,
         };
 
         const statusField: APIEmbedField = {

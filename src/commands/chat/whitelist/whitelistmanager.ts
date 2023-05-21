@@ -83,7 +83,7 @@ export class WhitelistManager {
         const whiteListEntry: WhiteListEntry = {
             _id: new Types.ObjectId(),
             discordId,
-            zoneId,
+            zoneClientId: zoneId,
             status,
         };
 
@@ -100,7 +100,7 @@ export class WhitelistManager {
         return {
             _id: new Types.ObjectId(entity._id),
             discordId: entity.discordId,
-            zoneId: entity.zoneId,
+            zoneClientId: entity.zoneClientId,
             status: entity.status,
         };
     }
@@ -113,7 +113,7 @@ export class WhitelistManager {
         return {
             _id: new Types.ObjectId(entity._id),
             discordId: entity.discordId,
-            zoneId: entity.zoneId,
+            zoneClientId: entity.zoneClientId,
             status: entity.status,
         };
     }
@@ -130,7 +130,7 @@ export class WhitelistManager {
             return {
                 _id: new Types.ObjectId(updated.value._id),
                 discordId: updated.value.discordId,
-                zoneId: updated.value.zoneId,
+                zoneClientId: updated.value.zoneClientId,
                 status: updated.value.status,
             };
         } catch (error) {
