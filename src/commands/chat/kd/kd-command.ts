@@ -74,7 +74,7 @@ export class KillDeathRatioCommand implements Command {
                 }
 
                 const userCharacters = characters.filter(
-                    character => character.ownerId === whitelistEntry.zoneId
+                    character => character.ownerId === whitelistEntry.zoneClientId
                 );
                 const userCharacterNames: string[] = userCharacters.map(
                     character => character.characterName
