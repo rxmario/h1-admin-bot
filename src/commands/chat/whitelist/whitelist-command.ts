@@ -173,10 +173,12 @@ export class WhiteListAdd implements Command {
 
         const embedFields = this.makeEmbedFields(hasLeftDiscord, entity, user);
 
+        const emoji = '<:arrow:1109099783672569876>';
+
         const manageEmbed = EmbedUtils.makeEmbed(
             hasLeftDiscord ? EmbedType.WARNING : EmbedType.SUCCESS,
             'Whitelist Status',
-            isAlreadyWhitelisted ? 'Attention: The user already did the whitelist at some point. Check if the given Discord and Zone Id matches with what we have got. Chances are high that it might be a rejoiner.' : null
+            isAlreadyWhitelisted ? `:warning: Attention\n${emoji} The user already did the whitelist at some point. Check if the given Discord and Zone Id matches with what we have got. Chances are high that it might be a rejoiner.` : null
         )
             .addFields(embedFields)
             .setColor(getStatusColor(entity.status));
