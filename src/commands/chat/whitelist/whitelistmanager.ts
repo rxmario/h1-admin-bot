@@ -15,15 +15,20 @@ const COLLECTION_NAME = 'internal-whitelist';
 
 export enum WhiteListAddErrorType {
     discordId = 'Discord Id',
-    zoneId = 'Zone Id'
+    zoneId = 'Zone Id',
 }
 export class WhiteListAddError extends Error {
-    type: WhiteListAddErrorType
+    type: WhiteListAddErrorType;
     userTag: string;
     userProfileLink: string;
-    constructor(type: WhiteListAddErrorType, message: string, userTag: string, userProfileLink: string) {
+    constructor(
+        type: WhiteListAddErrorType,
+        message: string,
+        userTag: string,
+        userProfileLink: string
+    ) {
         super(message);
-        this.type = type
+        this.type = type;
         this.name = 'WhiteListAddError';
         this.userTag = userTag;
         this.userProfileLink = userProfileLink;

@@ -105,7 +105,11 @@ export class WhiteListAdd implements Command {
             return;
         } catch (error) {
             if (error instanceof WhiteListAddError) {
-                await this.manageInteraction(intr, error.type === WhiteListAddErrorType.zoneId ? zoneId : discordId, error.type);
+                await this.manageInteraction(
+                    intr,
+                    error.type === WhiteListAddErrorType.zoneId ? zoneId : discordId,
+                    error.type
+                );
                 return;
             }
             if (error.code === 10013 || error.code === 50035) {
@@ -123,8 +127,11 @@ export class WhiteListAdd implements Command {
         }
     }
 
-    private async manageInteraction(interaction: ChatInputCommandInteraction, id: string | null, type: WhiteListAddErrorType | null): Promise<void> {
-        
+    private async manageInteraction(
+        interaction: ChatInputCommandInteraction,
+        id: string | null,
+        type: WhiteListAddErrorType | null
+    ): Promise<void> {
         let extractedId: string | null = null;
         let isAlreadyWhitelisted = false;
         if (typeof id === 'string') {
@@ -132,12 +139,12 @@ export class WhiteListAdd implements Command {
             isAlreadyWhitelisted = true;
         } else {
             const param = interaction.options.getString('id');
-            if(param) {
+            if (param) {
                 extractedId = param.trim();
             }
         }
 
-        if(!extractedId) return;
+        if (!extractedId) return;
 
         const discordId = RegexUtils.discordId(extractedId);
         const zoneId = RegexUtils.zoneId(extractedId);
@@ -176,7 +183,11 @@ export class WhiteListAdd implements Command {
         const manageEmbed = EmbedUtils.makeEmbed(
             hasLeftDiscord ? EmbedType.WARNING : EmbedType.SUCCESS,
             'Whitelist Status',
-            isAlreadyWhitelisted ? `:warning: Attention :warning:\nThe ${type ? type.valueOf() : ''} is already taken. Check if the given Discord and Zone Id matches with what we have got. Chances are high that it might be a rejoiner.\n\n` : null
+            isAlreadyWhitelisted
+                ? `:warning: Attention :warning:\nThe ${
+                      type ? type.valueOf() : ''
+                  } is already taken. Check if the given Discord and Zone Id matches with what we have got. Chances are high that it might be a rejoiner. If it appears to be sus then it might be a good idea to talk about the case.\n\n`
+                : null
         )
             .addFields(embedFields)
             .setColor(getStatusColor(entity.status));
