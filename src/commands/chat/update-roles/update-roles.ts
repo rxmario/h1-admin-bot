@@ -34,7 +34,6 @@ export class UpdateRoles implements Command {
                 return;
             }
 
-            console.log('role id:', whiteListedRoleId);
             for (const [_, member] of members) {
                 const fetched = await member.fetch(true);
                 if (!fetched.roles.cache.some(role => role.id === whiteListedRoleId)) {
