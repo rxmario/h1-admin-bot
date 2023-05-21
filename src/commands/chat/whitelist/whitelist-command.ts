@@ -40,7 +40,7 @@ export class WhiteListAdd implements Command {
                 await this.addInteraction(intr);
                 return;
             case 'manage':
-                await this.manageInteraction(intr, null);
+                await this.manageInteraction(intr, null, null);
                 return;
             case 'scan':
                 await InteractionUtils.deferReply(intr, false);
@@ -105,7 +105,7 @@ export class WhiteListAdd implements Command {
             return;
         } catch (error) {
             if (error instanceof WhiteListAddError) {
-                await this.manageInteraction(intr, error.type === WhiteListAddErrorType.zoneId ? zoneId : discordId);
+                await this.manageInteraction(intr, error.type === WhiteListAddErrorType.zoneId ? zoneId : discordId, error.type);
                 return;
             }
             if (error.code === 10013 || error.code === 50035) {
@@ -123,7 +123,7 @@ export class WhiteListAdd implements Command {
         }
     }
 
-    private async manageInteraction(interaction: ChatInputCommandInteraction, id: string | null): Promise<void> {
+    private async manageInteraction(interaction: ChatInputCommandInteraction, id: string | null, type: WhiteListAddErrorType | null): Promise<void> {
         
         let extractedId: string | null = null;
         let isAlreadyWhitelisted = false;
@@ -173,12 +173,10 @@ export class WhiteListAdd implements Command {
 
         const embedFields = this.makeEmbedFields(hasLeftDiscord, entity, user);
 
-        const emoji = '<:arrow:1109099783672569876>';
-
         const manageEmbed = EmbedUtils.makeEmbed(
             hasLeftDiscord ? EmbedType.WARNING : EmbedType.SUCCESS,
             'Whitelist Status',
-            isAlreadyWhitelisted ? `:warning: Attention :warning:\nThe user already did the whitelist at some point. Check if the given Discord and Zone Id matches with what we have got. Chances are high that it might be a rejoiner.\n` : null
+            isAlreadyWhitelisted ? `:warning: Attention :warning:\nThe ${type ? type.valueOf() : ''} is already taken. Check if the given Discord and Zone Id matches with what we have got. Chances are high that it might be a rejoiner.\n\n` : null
         )
             .addFields(embedFields)
             .setColor(getStatusColor(entity.status));

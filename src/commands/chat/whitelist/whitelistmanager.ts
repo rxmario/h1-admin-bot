@@ -14,8 +14,8 @@ let Config = require('../../../../config/config.json');
 const COLLECTION_NAME = 'internal-whitelist';
 
 export enum WhiteListAddErrorType {
-    discordId,
-    zoneId
+    discordId = 'Discord Id',
+    zoneId = 'Zone Id'
 }
 export class WhiteListAddError extends Error {
     type: WhiteListAddErrorType
