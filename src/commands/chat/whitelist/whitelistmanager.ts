@@ -2,8 +2,8 @@ import { Client } from 'discord.js';
 import { Collection, MongoClient, ReturnDocument } from 'mongodb';
 import { Types } from 'mongoose';
 import { createRequire } from 'node:module';
-import { Logger } from '../../../services/index.js';
 
+import { Logger } from '../../../services/index.js';
 import { ClientUtils } from '../../../utils/client-utils.js';
 import { WhiteListEntry, WhiteListStatus } from './whitelist-model.js';
 
@@ -13,11 +13,22 @@ let Config = require('../../../../config/config.json');
 
 const COLLECTION_NAME = 'internal-whitelist';
 
+export enum WhiteListAddErrorType {
+    discordId = 'Discord Id',
+    zoneId = 'Zone Id',
+}
 export class WhiteListAddError extends Error {
+    type: WhiteListAddErrorType;
     userTag: string;
     userProfileLink: string;
-    constructor(message: string, userTag: string, userProfileLink: string) {
+    constructor(
+        type: WhiteListAddErrorType,
+        message: string,
+        userTag: string,
+        userProfileLink: string
+    ) {
         super(message);
+        this.type = type;
         this.name = 'WhiteListAddError';
         this.userTag = userTag;
         this.userProfileLink = userProfileLink;
@@ -46,7 +57,7 @@ export class WhitelistManager {
     async createWhitelistEntry(
         client: Client,
         discordId: string,
-        zoneClientId: string,
+        zoneId: string,
         status: WhiteListStatus
     ): Promise<WhiteListEntry> {
         if (await this.isDiscordIdTaken(discordId)) {
@@ -54,19 +65,21 @@ export class WhitelistManager {
             const user = await ClientUtils.getUser(client, takenEntity.discordId);
             const userProfileLink = `https://discord.com/users/${user.id}`;
             throw new WhiteListAddError(
+                WhiteListAddErrorType.discordId,
                 `Discord User is already linked to a zone client id. Whitelist status for the specified user is: ${takenEntity.status}.`,
                 user.tag,
                 userProfileLink
             );
         }
 
-        if (await this.isZoneClientIdTaken(zoneClientId)) {
-            const takenEntity = await this.getEntryByClientId(zoneClientId);
+        if (await this.isZoneIdTaken(zoneId)) {
+            const takenEntity = await this.getEntryByZoneId(zoneId);
             const user = await ClientUtils.getUser(client, takenEntity.discordId);
 
             const userProfileLink = `https://discord.com/users/${user.id}`;
             throw new WhiteListAddError(
-                `ZoneClientId '${zoneClientId}' is already taken by ${user.tag} with status: ${takenEntity.status}.`,
+                WhiteListAddErrorType.zoneId,
+                `ZoneClientId '${zoneId}' is already taken by ${user.tag} with status: ${takenEntity.status}.`,
                 user.tag,
                 userProfileLink
             );
@@ -75,7 +88,7 @@ export class WhitelistManager {
         const whiteListEntry: WhiteListEntry = {
             _id: new Types.ObjectId(),
             discordId,
-            zoneClientId,
+            zoneClientId: zoneId,
             status,
         };
 
@@ -84,8 +97,8 @@ export class WhitelistManager {
         return whiteListEntry;
     }
 
-    async getEntryByClientId(clientId: string): Promise<WhiteListEntry | null> {
-        const entity = await this._db.findOne({ zoneClientId: clientId });
+    async getEntryByZoneId(zoneId: string): Promise<WhiteListEntry | null> {
+        const entity = await this._db.findOne({ zoneClientId: zoneId });
         if (!entity) {
             return null;
         }
@@ -152,8 +165,8 @@ export class WhitelistManager {
         return;
     }
 
-    async isZoneClientIdTaken(zoneClientId: string): Promise<boolean> {
-        const document = await this._db.findOne({ zoneClientId });
+    async isZoneIdTaken(zoneId: string): Promise<boolean> {
+        const document = await this._db.findOne({ zoneId });
         return !!document;
     }
 

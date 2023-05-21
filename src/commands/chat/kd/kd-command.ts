@@ -49,12 +49,6 @@ export class KillDeathRatioCommand implements Command {
             return;
         }
 
-        if (intr.member.permissions.has(PermissionsBitField.Flags.BanMembers)) {
-            this.cooldown = new RateLimiter(9999, 3600000);
-        } else {
-            this.cooldown = new RateLimiter(2, 3600000);
-        }
-
         const characterCollection = db.collection('characters');
         const characters = await characterCollection.find().toArray();
 

@@ -16,7 +16,7 @@ export class RegexUtils {
         return input?.match(/\b\d{17,20}\b/)?.[0];
     }
 
-    public static zoneClientId(input: string): string {
+    public static zoneId(input: string): string {
         return input?.match(/^0x[0-9a-fA-F]{16}$/)?.[0];
     }
 
